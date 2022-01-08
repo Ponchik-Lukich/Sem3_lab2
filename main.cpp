@@ -107,7 +107,7 @@ int choice, count, number, param = 0;
 ArraySequence<Person> *seq = new ArraySequence<Person>();
 Person NPerson;
 int (Person::*getParam)() = NULL;
-Histogram *hist;
+Histogram<int> *hist;
 cin >> choice;
 
 cout << "How many persons you want to add: " << endl;
@@ -174,7 +174,7 @@ if (number > count)
     exit(0);
 }
 
-hist = new Histogram(*seq, getParam, number);
+hist = new Histogram<int>(*seq, getParam, number, compareT1);
 cout << "The histogram:" << endl;
 Sequence<PairKE<int, int>>* pairs = hist->print_hist();
 for(int i = 0; i < pairs->GetSize(); i += 1)

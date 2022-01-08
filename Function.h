@@ -11,6 +11,20 @@ bool compareT(T a, T b)
     return a <= b;
 }
 
+template <class T>
+int compareT1(T a, T b)
+{
+    if (a < b)
+    {
+        return 0;
+    }
+    if (a > b)
+    {
+        return 1;
+    }
+    return 2;
+}
+
 bool compare_string_int(PairKE<string, int> a, PairKE<string, int> b) {
     if (a.GetKey() <= b.GetKey())
     {

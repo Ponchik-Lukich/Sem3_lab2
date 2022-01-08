@@ -6,28 +6,29 @@
 
 using namespace std;
 
+template <class T>
 class Histogram
 {
 private:
 
-    Dictionary<int, int>* dict;
-    int (Person::*getParam)();
+    Dictionary<T, int>* dict;
+    T (Person::*getParam)();
 
 public:
-    Histogram(ArraySequence<Person> seq, int (Person::*getParam)(), int n)
+    Histogram(ArraySequence<Person> seq, int (Person::*getParam)(), int n, int (*cmp)(T, T))
     {
-        int min = (seq.Get(0).*getParam)();
-        int max = (seq.Get(0).*getParam)();
+        T min = (seq.Get(0).*getParam)();
+        T max = (seq.Get(0).*getParam)();
 
         for (int i = 1; i < seq.GetSize(); i++)
         {
-            if ((seq.Get(i).*getParam)() < min)
+            if (cmp((seq.Get(i).*getParam)(), min) == 0)
                 min = (seq.Get(i).*getParam)();
             
-            if ((seq.Get(i).*getParam)() > max)
+            if (cmp((seq.Get(i).*getParam)(), max) == 1)
                 max = (seq.Get(i).*getParam)();
         }
-        int dif = (max - min) / n;
+        T dif = (max - min) / n;
 
         while (dif == 0)
         {
@@ -35,18 +36,20 @@ public:
             dif = (max - min) / n;
         }
         
-        dict = new Dictionary<int, int>(min, 0, compareT);
+        dict = new Dictionary<T, int>(min, 0, compareT);
         
         for (int i = 1; i < n; i++)
+        {
             dict->Add((min + dif*i), 0);
+        }
 
-        int j = 0;
+        T j = 0;
         int amount = 0;
         
         for (int i = 0; i < seq.GetSize(); i++)
         {
             j = (((seq.Get(i).*getParam)() - min)  / dif);
-            if (j == n) j--;
+            if (cmp(j, n) == 2) j--;
             amount = dict->Get((min + j * dif));
             dict->ChangeElem((min + j * dif), amount + 1);
         }
@@ -63,9 +66,9 @@ public:
         return this->dict->GetCount();
     }
     
-    Sequence<PairKE<int, int>>* print_hist()
+    Sequence<PairKE<T, int>>* print_hist()
     {
-        Sequence<PairKE<int, int>>* seq = dict->Get_Array();
+        Sequence<PairKE<T, int>>* seq = dict->Get_Array();
         return seq;
     }
 };
