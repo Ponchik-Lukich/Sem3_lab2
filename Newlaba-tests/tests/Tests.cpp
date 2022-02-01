@@ -237,14 +237,14 @@ TEST(Dictionary, second)
 
 TEST(Histogram, first)
 {
-    Histogram *hist;
+    Histogram<int> *hist;
     ArraySequence<Person> *seq = new ArraySequence<Person>();
     seq->Append(Person("Andrey", "Ivanov", 20, 80));
     seq->Append(Person("Andrey", "Ivanov", 20, 90));
     seq->Append(Person("Andrey", "Ivanov", 20, 80));
     seq->Append(Person("Andrey", "Ivanov", 20, 90));
     int (Person::*getParam)() = &Person::GetMark;
-    hist = new Histogram(*seq, getParam, 2);
+    hist = new Histogram<int>(*seq, getParam, 2, compareT1);
     Sequence<PairKE<int, int>>* pairs = hist->print_hist();
     ASSERT_EQ(80, pairs->Get(0).GetKey());
     ASSERT_EQ(85, pairs->Get(1).GetKey());

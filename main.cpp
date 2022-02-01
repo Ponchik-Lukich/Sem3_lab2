@@ -9,6 +9,8 @@
 #include "Alphabet.h"
 #include <chrono>
 #include "Sorts.h"
+#include "Words.h"
+
 #include "ListSequence.h"
 #include "ArraySequence.h"
 
@@ -26,8 +28,7 @@ string random_string( size_t length )
             {
         const char charset[] =
                 "0123456789"
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                "abcdefghijklmnopqrstuvwxyz";
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const size_t max_index = (sizeof(charset) - 1);
         return charset[ rand() % max_index ];
             };
@@ -96,6 +97,12 @@ string randomLN()
 int randomAge_Mark()
 {
     return (rand() % 100);
+}
+
+string randomWord()
+{
+    int i = rand() % 20000;
+    return Words[i];
 }
 
 void Histogram_interface()
@@ -220,7 +227,7 @@ void Alphabet_interface()
     {
         for (int i = 0; i < size; i++)
         {
-            string el = random_string(rand() % 20 +1);
+            string el = randomWord();
             arr[i] = el;
             cout << el << " ";
         }
@@ -379,6 +386,7 @@ void OftenSubsequences_interface()
 
 int main()
 {
+    srand( time(0) );
     cout << ("----------------------------------------------\n");
     cout << ("1 <- Alphabet") << endl;
     cout << ("2 <- Histogram") << endl;
